@@ -281,8 +281,10 @@ log "-------------------------------------------------------"
 cd "${APP_DIR}"
 log "Detecting package manager..."
 PKG_MANAGER="npm"
-if [ -f "pnpm-lock.yaml" ]; then PKG_MANAGER="pnpm";
-elif [ -f "yarn.lock" ]; then PKG_MANAGER="yarn";
+  if [ -f "pnpm-lock.yaml" ]; then
+    PKG_MANAGER="pnpm"
+    command -v pnpm &>/dev/null || { log "pnpm not found, auto-installing..."; npm install -g pnpm --quiet; }
+  elif [ -f "yarn.lock" ]; then PKG_MANAGER="yarn";
 elif [ -f "bun.lockb" ]; then PKG_MANAGER="bun"; fi
 
 RUN_CMD="$PKG_MANAGER run"
@@ -401,7 +403,9 @@ do_import() {
     -H "Authorization: Token ${DEFECTDOJO_API_KEY}" \
     -F "scan_date=${RUN_DATE}" \
     -F "scan_type=${SCAN_TYPE}" \
-    -F "engagement=${DEFECTDOJO_ENGAGEMENT_ID}" \
+    -F "auto_create_context=True" \
+    -F "product_name=${PROJECT_NAME}" \
+    -F "engagement_name=GitHub Actions CI" \
     -F "file=@${FILE}" \
     -F "close_old_findings=true" \
     -F "minimum_severity=Low" \
