@@ -405,6 +405,7 @@ do_import() {
     -F "scan_type=${SCAN_TYPE}" \
     -F "auto_create_context=True" \
     -F "product_name=${PROJECT_NAME}" \
+    -F "product_type_name=Research and Development" \
     -F "engagement_name=GitHub Actions CI" \
     -F "file=@${FILE}" \
     -F "close_old_findings=true" \
