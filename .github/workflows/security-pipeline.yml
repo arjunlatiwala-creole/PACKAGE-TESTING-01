@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set metadata
         id: meta
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Copy code and script to workspace
         run: |
@@ -97,7 +97,7 @@ jobs:
       # ── Upload reports so collect-report job can access them ────────────────
       - name: Upload raw scan reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: raw-scan-reports-${{ needs.prepare.outputs.short_sha }}
           path: ~/security-scan/reports/
@@ -114,7 +114,7 @@ jobs:
     steps:
       # ── Download reports produced by run-scans ──────────────────────────────
       - name: Download raw scan reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: raw-scan-reports-${{ needs.prepare.outputs.short_sha }}
           path: ~/security-scan/reports/
@@ -143,7 +143,7 @@ jobs:
           fi
 
       - name: Upload as GitHub artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ needs.prepare.outputs.report_name }}
           path: ~/security-scan/reports/
